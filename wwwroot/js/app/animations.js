@@ -1,5 +1,7 @@
+/*global angular,dynamics*/
 
-app.animation('.navigation', ['$rootScope', '$animate', function ($rootScope, $animate) {
+app.animation('.navigation', ['$rootScope', '$animate', function($rootScope, $animate) {
+    
     var previousRoute = null;
     var currentRoute = null;
     var bezierOptions = {
@@ -7,10 +9,12 @@ app.animation('.navigation', ['$rootScope', '$animate', function ($rootScope, $a
         points: [{ x: 0, y: 0, cp: [{ x: 0.509, y: 0.007 }] }, { x: 1, y: 1, cp: [{ x: 0.566, y: 0.997 }] }],
         duration: 500,
     }
-    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+    
+    $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
         previousRoute = previous.$$route;
         currentRoute = current.$$route;
     });
+    
     function isFirstView() {
         return !currentRoute;
     }
@@ -18,7 +22,7 @@ app.animation('.navigation', ['$rootScope', '$animate', function ($rootScope, $a
         return previousRoute && previousRoute.isForward;
     }
     return {
-        enter: function (element, done) {
+        enter: function(element, done) {
             if (isFirstView()) {
                 // FIRST ENTERING ANIMATION
                 dynamics.css(element[0], {
@@ -52,7 +56,7 @@ app.animation('.navigation', ['$rootScope', '$animate', function ($rootScope, $a
             }
             done();
         },
-        leave: function (element, done) {
+        leave: function(element, done) {
             if (isBackward()) {
                 // BACKWARD EXITING ANIMATION
                 var w = element[0].offsetWidth;
